@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pergunta Ao Pai</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif; /* Fonte fofa e amigável */
+            text-align: center;
+            background-color: #add8e6; /* Azul claro */
+            padding: 50px;
+            position: relative;
+            overflow: hidden; /* Para corações não saírem da tela */
+        }
+        /* Corações flutuantes */
+        body::before {
+            content: '❤️ 💖 💕 💗 💓';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: float 10s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100vh); }
+        }
+        h1 {
+            color: #ff69b4; /* Rosa fofo */
+            font-size: 28px;
+            text-shadow: 2px 2px #fff;
+        }
+        p {
+            font-size: 20px;
+            color: #333;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px; /* Mais arredondado para fofura */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            min-height: 50px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        button:active {
+            transform: scale(0.95); /* Efeito de pulo ao clicar */
+        }
+        #sim {
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            width: 200px;
+            height: 60px;
+        }
+        #nao {
+            background-color: #f44336; /* Vermelho */
+            color: white;
+            width: 200px;
+            height: 60px;
+        }
+        #sim:hover {
+            background-color: #45a049;
+        }
+        #nao:hover {
+            background-color: #da190b;
+        }
+        /* Balão de fala para frases */
+        .speech-bubble {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 2px solid #ff69b4;
+            border-radius: 15px;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #fff;
+        }
+        /* Mensagem de obrigado */
+        #obrigada {
+            display: none;
+            font-size: 32px;
+            color: #ff1493;
+            text-shadow: 2px 2px #fff;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+    <!-- Biblioteca de confetes -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <h1>Pai Lindo E Maravilhoso, Posso Ir?? 😍</h1>
+    <p>É Uma Oportunidade Incrível Para Aprender E Se Divertir! 😊</p>
+    
+    <div class="buttons">
+        <div class="speech-bubble" id="speech"></div>
+        <button id="sim">Sim, Claro!</button>
+        <button id="nao">Não/Talvez</button>
+    </div>
+    
+    <div id="obrigada">Obrigada Divo! 🎉</div>
+
+    <script>
+        let simButton = document.getElementById('sim');
+        let naoButton = document.getElementById('nao');
+        let speechBubble = document.getElementById('speech');
+        let obrigadaMsg = document.getElementById('obrigada');
+        let growth = 0;
+        let shrink = 0;
+        let phraseIndex = 0; // Índice para frases
+        const phrases = [
+            'Tem Certeza? 🤔',
+            'Pense Bem! 🧠',
+            'Por Favooor! 🙏'
+        ];
+
+        naoButton.addEventListener('click', function() {
+            // Mostra frase sequencial
+            speechBubble.textContent = phrases[phraseIndex];
+            speechBubble.style.display = 'block';
+            setTimeout(() => speechBubble.style.display = 'none', 2000); // Some após 2s
+            phraseIndex = (phraseIndex + 1) % phrases.length; // Ciclo pelas frases
+
+            // Crescimento e diminuição
+            growth += 20;
+            shrink += 10;
+            simButton.style.width = (200 + growth) + 'px';
+            simButton.style.height = (60 + growth) + 'px';
+            naoButton.style.width = Math.max(100, 200 - shrink) + 'px';
+            naoButton.style.height = Math.max(40, 60 - shrink) + 'px';
+        });
+
+        simButton.addEventListener('click', function() {
+            // Confetes
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            // Mostra mensagem de obrigado
+            obrigadaMsg.style.display = 'block';
+            setTimeout(() => obrigadaMsg.style.display = 'none', 3000); // Some após 3s
+        });
+    </script>
+</body>
+</html>
